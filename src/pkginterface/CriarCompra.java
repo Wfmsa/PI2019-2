@@ -1,11 +1,21 @@
 package pkginterface;
 
-
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
 
 public class CriarCompra extends javax.swing.JInternalFrame {
+    
+    
 
     public CriarCompra() {
         initComponents();
@@ -93,9 +103,33 @@ public class CriarCompra extends javax.swing.JInternalFrame {
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.showOpenDialog(this);
-        File f=fc.getSelectedFile();
+        File f = fc.getSelectedFile();
         fc.getSelectedFile();
         arquivodiretorio.setText(f.getPath());
+        try {
+            Connection connection = Conexao.getInstance().getConnection();
+            String sql = "INSERT INTO COMPRA VALUES ()";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            
+            
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+
+            while (br.ready()) {
+                String linha = br.readLine();
+
+            }
+            /*for (int i = 0; i < lista.size(); i++){
+                System.out.println(lista.get(i));
+            }*/
+
+        } catch (IOException ex) {
+            System.out.println("Erro ao acessar arquivo!");
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -103,12 +137,12 @@ public class CriarCompra extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void arquivodiretorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arquivodiretorioActionPerformed
-        
+
     }//GEN-LAST:event_arquivodiretorioActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
