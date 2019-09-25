@@ -2,6 +2,7 @@ package pkginterface;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -96,12 +97,12 @@ public class CriarCompra extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+File f;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.showOpenDialog(this);
-        File f = fc.getSelectedFile();
+        f = fc.getSelectedFile();
 
         /*String sql = "INSERT INTO compra";
       
@@ -135,13 +136,13 @@ public class CriarCompra extends javax.swing.JInternalFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
             FileReader ler = new FileReader(f);
-            BufferedReader lerArq = new BufferedReader(ler);
-            Connection connection = Conexao.getInstance().getConnection();
+            BufferedReader lerarq = new BufferedReader(ler);
+            Connection connection  = Conexao.getInstance().getConnection();
             String sql = "insert into compra(idcompra, data, dia_da_semana, Produtos) values (?,?,?,?)";
             connection.setAutoCommit(false);
             PreparedStatement psmt = connection.prepareStatement(sql);
         //Caso o arquivo seja muito grande, voce pode usar um contador para persistir aos poucos.
-            //int contador = 0;
+            int contador = 0;
             Iterable<String> linhas = null;
             for (String linha : linhas) {
                 String[] colunas = linha.split(";");
@@ -150,20 +151,18 @@ public class CriarCompra extends javax.swing.JInternalFrame {
                 psmt.setString(3, colunas[2]);
                 psmt.setString(4, colunas[3]);
                 psmt.addBatch();
-            //contador++;
+            contador++;
                 //caso resolva usar o contador, coloque o if abaixo.
-           /* if(contador == 1000) {
+           if(contador == 1000) {
                  psmt.executeBatch();
                  connection.commit();                
                  contador = 0;
-                 }*/
+                 }
             }
             psmt.executeBatch();
             connection.commit();
             connection.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException | FileNotFoundException ex) {
             Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
         }
 
