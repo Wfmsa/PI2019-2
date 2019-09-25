@@ -2,6 +2,7 @@ package pkginterface;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -104,8 +105,33 @@ File f;
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.showOpenDialog(this);
 
+
         File f = fc.getSelectedFile();
         fc.getSelectedFile();
+        f = fc.getSelectedFile();
+
+        /*String sql = "INSERT INTO compra";
+      
+         String linha = lerArq.readLine(); // lê a primeira linha
+         // a variável "linha" recebe o valor "null" quando o processo
+         // de repetição atingir o final do arquivo texto
+         while (linha != null) {
+         System.out.printf("%s\n", linha);
+ 
+         linha = lerArq.readLine(); // lê da segunda até a última linha
+        
+         }
+          
+ 
+         ler.close();
+         } catch (IOException e) {
+         System.err.printf("Erro na abertura do arquivo: %s.\n",
+         e.getMessage());
+         }   catch (SQLException ex) {
+         Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (ClassNotFoundException ex) {
+         Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+         }*/
         arquivodiretorio.setText(f.getPath());
         try {
             Connection connection = Conexao.getInstance().getConnection();
@@ -140,13 +166,13 @@ File f;
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
             FileReader ler = new FileReader(f);
-            BufferedReader lerarq = new BufferedReader(ler);
-            Connection connection  = Conexao.getInstance().getConnection();
+            BufferedReader lerArq = new BufferedReader(ler);
+            Connection connection = Conexao.getInstance().getConnection();
             String sql = "insert into compra(idcompra, data, dia_da_semana, Produtos) values (?,?,?,?)";
             connection.setAutoCommit(false);
             PreparedStatement psmt = connection.prepareStatement(sql);
         //Caso o arquivo seja muito grande, voce pode usar um contador para persistir aos poucos.
-            int contador = 0;
+            //int contador = 0;
             Iterable<String> linhas = null;
             for (String linha : linhas) {
                 String[] colunas = linha.split(";");
@@ -155,18 +181,22 @@ File f;
                 psmt.setString(3, colunas[2]);
                 psmt.setString(4, colunas[3]);
                 psmt.addBatch();
-            contador++;
+            //contador++;
                 //caso resolva usar o contador, coloque o if abaixo.
-           if(contador == 1000) {
+           /* if(contador == 1000) {
                  psmt.executeBatch();
                  connection.commit();                
                  contador = 0;
-                 }
+                 }*/
             }
             psmt.executeBatch();
             connection.commit();
             connection.close();
-        } catch (SQLException | ClassNotFoundException | FileNotFoundException ex) {
+        } catch (SQLException ex) {
+            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
             Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
         }
 
