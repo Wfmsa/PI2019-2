@@ -2,7 +2,6 @@ package pkginterface;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -15,6 +14,8 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 public class CriarCompra extends javax.swing.JInternalFrame {
+    
+    
 
     public CriarCompra() {
         initComponents();
@@ -102,31 +103,34 @@ File f;
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.showOpenDialog(this);
-        f = fc.getSelectedFile();
 
-        /*String sql = "INSERT INTO compra";
-      
-         String linha = lerArq.readLine(); // lê a primeira linha
-         // a variável "linha" recebe o valor "null" quando o processo
-         // de repetição atingir o final do arquivo texto
-         while (linha != null) {
-         System.out.printf("%s\n", linha);
- 
-         linha = lerArq.readLine(); // lê da segunda até a última linha
-        
-         }
-          
- 
-         ler.close();
-         } catch (IOException e) {
-         System.err.printf("Erro na abertura do arquivo: %s.\n",
-         e.getMessage());
-         }   catch (SQLException ex) {
-         Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (ClassNotFoundException ex) {
-         Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
-         }*/
+        File f = fc.getSelectedFile();
+        fc.getSelectedFile();
         arquivodiretorio.setText(f.getPath());
+        try {
+            Connection connection = Conexao.getInstance().getConnection();
+            String sql = "INSERT INTO COMPRA VALUES ()";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            
+            
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+
+            while (br.ready()) {
+                String linha = br.readLine();
+
+            }
+            /*for (int i = 0; i < lista.size(); i++){
+                System.out.println(lista.get(i));
+            }*/
+
+        } catch (IOException ex) {
+            System.out.println("Erro ao acessar arquivo!");
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

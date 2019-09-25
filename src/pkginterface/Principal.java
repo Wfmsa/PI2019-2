@@ -14,9 +14,7 @@ import java.awt.Component;
  */
 public class Principal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form NewJFrame
-     */
+ 
     public Principal() {
         initComponents();
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); 
