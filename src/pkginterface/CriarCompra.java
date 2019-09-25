@@ -1,7 +1,15 @@
 package pkginterface;
 
-
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
 
@@ -93,8 +101,30 @@ public class CriarCompra extends javax.swing.JInternalFrame {
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.showOpenDialog(this);
-        File f=fc.getSelectedFile();
-        fc.getSelectedFile();
+        File f = fc.getSelectedFile();
+
+        /*String sql = "INSERT INTO compra";
+      
+         String linha = lerArq.readLine(); // lê a primeira linha
+         // a variável "linha" recebe o valor "null" quando o processo
+         // de repetição atingir o final do arquivo texto
+         while (linha != null) {
+         System.out.printf("%s\n", linha);
+ 
+         linha = lerArq.readLine(); // lê da segunda até a última linha
+        
+         }
+          
+ 
+         ler.close();
+         } catch (IOException e) {
+         System.err.printf("Erro na abertura do arquivo: %s.\n",
+         e.getMessage());
+         }   catch (SQLException ex) {
+         Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (ClassNotFoundException ex) {
+         Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+         }*/
         arquivodiretorio.setText(f.getPath());
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -103,17 +133,50 @@ public class CriarCompra extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+        try {
+            FileReader ler = new FileReader(f);
+            BufferedReader lerArq = new BufferedReader(ler);
+            Connection connection = Conexao.getInstance().getConnection();
+            String sql = "insert into compra(idcompra, data, dia_da_semana, Produtos) values (?,?,?,?)";
+            connection.setAutoCommit(false);
+            PreparedStatement psmt = connection.prepareStatement(sql);
+        //Caso o arquivo seja muito grande, voce pode usar um contador para persistir aos poucos.
+            //int contador = 0;
+            Iterable<String> linhas = null;
+            for (String linha : linhas) {
+                String[] colunas = linha.split(";");
+                psmt.setString(1, colunas[0]);
+                psmt.setString(2, colunas[1]);
+                psmt.setString(3, colunas[2]);
+                psmt.setString(4, colunas[3]);
+                psmt.addBatch();
+            //contador++;
+                //caso resolva usar o contador, coloque o if abaixo.
+           /* if(contador == 1000) {
+                 psmt.executeBatch();
+                 connection.commit();                
+                 contador = 0;
+                 }*/
+            }
+            psmt.executeBatch();
+            connection.commit();
+            connection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void arquivodiretorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arquivodiretorioActionPerformed
-        
+
     }//GEN-LAST:event_arquivodiretorioActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField arquivodiretorio;
-    private javax.swing.JButton jButton1;
+    public javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
