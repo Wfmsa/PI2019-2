@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +16,7 @@ import javax.swing.JFileChooser;
 public class CriarCompra extends javax.swing.JInternalFrame {
     
     
-
+    File f;
     public CriarCompra() {
         initComponents();
     }
@@ -99,64 +98,17 @@ public class CriarCompra extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-File f;
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.showOpenDialog(this);
 
-
-        File f = fc.getSelectedFile();
-        fc.getSelectedFile();
-        f = fc.getSelectedFile();
-
-        /*String sql = "INSERT INTO compra";
-      
-         String linha = lerArq.readLine(); // lê a primeira linha
-         // a variável "linha" recebe o valor "null" quando o processo
-         // de repetição atingir o final do arquivo texto
-         while (linha != null) {
-         System.out.printf("%s\n", linha);
- 
-         linha = lerArq.readLine(); // lê da segunda até a última linha
+        this.f= fc.getSelectedFile();
         
-         }
-          
- 
-         ler.close();
-         } catch (IOException e) {
-         System.err.printf("Erro na abertura do arquivo: %s.\n",
-         e.getMessage());
-         }   catch (SQLException ex) {
-         Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (ClassNotFoundException ex) {
-         Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
-         }*/
-        arquivodiretorio.setText(f.getPath());
-        try {
-            Connection connection = Conexao.getInstance().getConnection();
-            String sql = "INSERT INTO COMPRA VALUES ()";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();
-            
-            
-            FileReader fr = new FileReader(f);
-            BufferedReader br = new BufferedReader(fr);
-
-            while (br.ready()) {
-                String linha = br.readLine();
-
-            }
-            /*for (int i = 0; i < lista.size(); i++){
-                System.out.println(lista.get(i));
-            }*/
-
-        } catch (IOException ex) {
-            System.out.println("Erro ao acessar arquivo!");
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        fc.getSelectedFile();
+        this.f = fc.getSelectedFile();
+        arquivodiretorio.setText(this.f.getPath());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -165,14 +117,18 @@ File f;
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
-            FileReader ler = new FileReader(f);
+            FileReader ler = new FileReader(this.f);
             BufferedReader lerArq = new BufferedReader(ler);
             Connection connection = Conexao.getInstance().getConnection();
-            String sql = "insert into compra(idcompra, data, dia_da_semana, Produtos) values (?,?,?,?)";
+            String sql = "insert into compra(idcompra, data, dia_da_semana) values (?,?,?)";
             connection.setAutoCommit(false);
             PreparedStatement psmt = connection.prepareStatement(sql);
         //Caso o arquivo seja muito grande, voce pode usar um contador para persistir aos poucos.
             //int contador = 0;
+            String linha[] = null;
+            int a = 0;
+        linha[a] = lerArq.readLine();
+ 
             Iterable<String> linhas = null;
             for (String linha : linhas) {
                 String[] colunas = linha.split(";");
@@ -197,6 +153,8 @@ File f;
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
+            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
         }
 
