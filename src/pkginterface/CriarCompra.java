@@ -123,31 +123,31 @@ public class CriarCompra extends javax.swing.JInternalFrame {
             String sql = "insert into compra(idcompra, data, dia_da_semana) values (?,?,?)";
             connection.setAutoCommit(false);
             PreparedStatement psmt = connection.prepareStatement(sql);
-        //Caso o arquivo seja muito grande, voce pode usar um contador para persistir aos poucos.
-            //int contador = 0;
-            String linha[] = null;
-            int a = 0;
-        linha[a] = lerArq.readLine();
- 
-            Iterable<String> linhas = null;
-            for (String linha : linhas) {
-                String[] colunas = linha.split(";");
-                psmt.setString(1, colunas[0]);
-                psmt.setString(2, colunas[1]);
-                psmt.setString(3, colunas[2]);
-                psmt.setString(4, colunas[3]);
-                psmt.addBatch();
-            //contador++;
-                //caso resolva usar o contador, coloque o if abaixo.
-           /* if(contador == 1000) {
-                 psmt.executeBatch();
-                 connection.commit();                
-                 contador = 0;
-                 }*/
+            while(lerArq.ready()){
+            String linha=lerArq.readLine();
+            String colunas[] = linha.split(";");
+            String produtos[] = linha.split(",");
+            produtos[0]=colunas[3];
+            //psmt.setString(1,colunas[0]);
+            //psmt.setString(2,colunas[1]);
+            //psmt.setString(3,colunas[2]);
+                System.out.println(colunas[0]);
+                System.out.println(colunas[1]);
+                System.out.println(colunas[2]);
+                for(int i=1 ; i<colunas.length;i++){
+                    System.out.println(colunas[0]);
+                    System.out.println(produtos[0]);
+                    
+                    
+                }
+                
             }
-            psmt.executeBatch();
+            
+            //psmt.executeBatch();
+            //psmt.close();
             connection.commit();
             connection.close();
+            this.dispose();
         } catch (SQLException ex) {
             Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
