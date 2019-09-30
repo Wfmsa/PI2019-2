@@ -114,6 +114,10 @@ public class CriarCompra extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (this.f == null) {
+            jButton1.requestFocus();
+            arquivodiretorio.setText("Por favor selecione um arquivo");
+        } else {
         try {
             FileReader ler = new FileReader(this.f);
             BufferedReader lerArq = new BufferedReader(ler);
@@ -144,7 +148,6 @@ public class CriarCompra extends javax.swing.JInternalFrame {
             }
             psmtCompra.close();
             psmtItens.close();
-            //connection.commit();
             connection.close();
             this.dispose();
         } catch (SQLException ex) {
@@ -157,7 +160,7 @@ public class CriarCompra extends javax.swing.JInternalFrame {
             Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void arquivodiretorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arquivodiretorioActionPerformed
