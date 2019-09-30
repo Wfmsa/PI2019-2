@@ -103,9 +103,7 @@ public class CriarCompra extends javax.swing.JInternalFrame {
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.showOpenDialog(this);
-
         this.f= fc.getSelectedFile();
-        
         fc.getSelectedFile();
         this.f = fc.getSelectedFile();
         arquivodiretorio.setText(this.f.getPath());

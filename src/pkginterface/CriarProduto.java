@@ -5,7 +5,16 @@
  */
 package pkginterface;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 /**
@@ -20,7 +29,7 @@ public class CriarProduto extends javax.swing.JInternalFrame {
     public CriarProduto() {
         initComponents();
     }
-
+File f;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,6 +62,11 @@ public class CriarProduto extends javax.swing.JInternalFrame {
         });
 
         jButton2.setText("Concluir");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Fechar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -103,8 +117,10 @@ public class CriarProduto extends javax.swing.JInternalFrame {
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.showOpenDialog(this);
-        File f=fc.getSelectedFile();
-        arquivodiretorio.setText(f.getPath());
+        this.f= fc.getSelectedFile();
+        fc.getSelectedFile();
+        this.f = fc.getSelectedFile();
+        arquivodiretorio.setText(this.f.getPath());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -114,6 +130,37 @@ public class CriarProduto extends javax.swing.JInternalFrame {
     private void arquivodiretorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arquivodiretorioActionPerformed
         
     }//GEN-LAST:event_arquivodiretorioActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            FileReader ler = new FileReader(this.f);
+            BufferedReader lerArq = new BufferedReader(ler);
+            Connection connection = Conexao.getInstance().getConnection();
+            String sqlProduto = "INSERT INTO produto(idproduto, descproduto)"+ "VALUES (?, ?)";
+            connection.setAutoCommit(true);
+            PreparedStatement psmtCompra = connection.prepareStatement(sqlProduto);
+            while(lerArq.ready()){
+            String linha=lerArq.readLine();
+            String colunas[] = linha.split(";");
+            psmtCompra.setString(1,colunas[0]);
+            psmtCompra.addBatch(sqlProduto);
+            psmtCompra.setString(2,colunas[1]);
+            psmtCompra.addBatch(sqlProduto);
+            psmtCompra.execute();
+            }
+            psmtCompra.close();
+            connection.close();
+            this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
