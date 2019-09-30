@@ -14,9 +14,9 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 public class CriarCompra extends javax.swing.JInternalFrame {
-    
-    
+
     File f;
+
     public CriarCompra() {
         initComponents();
     }
@@ -100,10 +100,14 @@ public class CriarCompra extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fc.showOpenDialog(this);
-        this.f= fc.getSelectedFile();
+        if (fc.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
+            dispose();
+            return;
+        }
+        this.f = fc.getSelectedFile();
         fc.getSelectedFile();
         this.f = fc.getSelectedFile();
         arquivodiretorio.setText(this.f.getPath());
@@ -118,47 +122,47 @@ public class CriarCompra extends javax.swing.JInternalFrame {
             jButton1.requestFocus();
             arquivodiretorio.setText("Por favor selecione um arquivo");
         } else {
-        try {
-            FileReader ler = new FileReader(this.f);
-            BufferedReader lerArq = new BufferedReader(ler);
-            Connection connection = Conexao.getInstance().getConnection();
-            String sqlCompra = "INSERT INTO compra(idcompra, data, dia_da_semana)"+ "VALUES (?, ?, ?)";
-            String sqlItens= "INSERT INTO itens(idcompra,idproduto)"+ "VALUES (?, ?)";
-            connection.setAutoCommit(true);
-            PreparedStatement psmtCompra = connection.prepareStatement(sqlCompra);
-            PreparedStatement psmtItens = connection.prepareStatement(sqlItens);
-            while(lerArq.ready()){
-            String linha=lerArq.readLine();
-            String colunas[] = linha.split(";");
-            String produtos[] = colunas[3].split(",");
-            psmtCompra.setString(1,colunas[0]);
-            psmtCompra.addBatch(sqlCompra);
-            psmtCompra.setString(2,colunas[1]);
-            psmtCompra.addBatch(sqlCompra);
-            psmtCompra.setString(3,colunas[2]);
-            psmtCompra.addBatch(sqlCompra);
-            psmtCompra.execute();
-                for(int i=0 ; i<produtos.length;i++){
-                    psmtItens.setString(1,colunas[0]);
-                    psmtItens.addBatch(sqlItens);
-                    psmtItens.setString(2,produtos[i]);
-                    psmtItens.addBatch(sqlItens);
-                    psmtItens.execute();
+            try {
+                FileReader ler = new FileReader(this.f);
+                BufferedReader lerArq = new BufferedReader(ler);
+                Connection connection = Conexao.getInstance().getConnection();
+                String sqlCompra = "INSERT INTO compra(idcompra, data, dia_da_semana)" + "VALUES (?, ?, ?)";
+                String sqlItens = "INSERT INTO itens(idcompra,idproduto)" + "VALUES (?, ?)";
+                connection.setAutoCommit(true);
+                PreparedStatement psmtCompra = connection.prepareStatement(sqlCompra);
+                PreparedStatement psmtItens = connection.prepareStatement(sqlItens);
+                while (lerArq.ready()) {
+                    String linha = lerArq.readLine();
+                    String colunas[] = linha.split(";");
+                    String produtos[] = colunas[3].split(",");
+                    psmtCompra.setString(1, colunas[0]);
+                    psmtCompra.addBatch(sqlCompra);
+                    psmtCompra.setString(2, colunas[1]);
+                    psmtCompra.addBatch(sqlCompra);
+                    psmtCompra.setString(3, colunas[2]);
+                    psmtCompra.addBatch(sqlCompra);
+                    psmtCompra.execute();
+                    for (int i = 0; i < produtos.length; i++) {
+                        psmtItens.setString(1, colunas[0]);
+                        psmtItens.addBatch(sqlItens);
+                        psmtItens.setString(2, produtos[i]);
+                        psmtItens.addBatch(sqlItens);
+                        psmtItens.execute();
+                    }
                 }
+                psmtCompra.close();
+                psmtItens.close();
+                connection.close();
+                this.dispose();
+            } catch (SQLException ex) {
+                Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
             }
-            psmtCompra.close();
-            psmtItens.close();
-            connection.close();
-            this.dispose();
-        } catch (SQLException ex) {
-            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
         }
     }//GEN-LAST:event_jButton3ActionPerformed
