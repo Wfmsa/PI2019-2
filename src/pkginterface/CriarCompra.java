@@ -120,32 +120,33 @@ public class CriarCompra extends javax.swing.JInternalFrame {
             FileReader ler = new FileReader(this.f);
             BufferedReader lerArq = new BufferedReader(ler);
             Connection connection = Conexao.getInstance().getConnection();
-            String sql = "insert into compra(idcompra, data, dia_da_semana) values (?,?,?)";
-            connection.setAutoCommit(false);
-            PreparedStatement psmt = connection.prepareStatement(sql);
+            String sqlCompra = "INSERT INTO compra(idcompra, data, dia_da_semana)"+ "VALUES (?, ?, ?)";
+            String sqlItens= "INSERT INTO itens(idcompra,idproduto)"+ "VALUES (?, ?)";
+            connection.setAutoCommit(true);
+            PreparedStatement psmtCompra = connection.prepareStatement(sqlCompra);
+            PreparedStatement psmtItens = connection.prepareStatement(sqlItens);
             while(lerArq.ready()){
             String linha=lerArq.readLine();
             String colunas[] = linha.split(";");
-            String produtos[] = linha.split(",");
-            produtos[0]=colunas[3];
-            //psmt.setString(1,colunas[0]);
-            //psmt.setString(2,colunas[1]);
-            //psmt.setString(3,colunas[2]);
-                System.out.println(colunas[0]);
-                System.out.println(colunas[1]);
-                System.out.println(colunas[2]);
-                for(int i=1 ; i<colunas.length;i++){
-                    System.out.println(colunas[0]);
-                    System.out.println(produtos[0]);
-                    
-                    
+            String produtos[] = colunas[3].split(",");
+            psmtCompra.setString(1,colunas[0]);
+            psmtCompra.addBatch(sqlCompra);
+            psmtCompra.setString(2,colunas[1]);
+            psmtCompra.addBatch(sqlCompra);
+            psmtCompra.setString(3,colunas[2]);
+            psmtCompra.addBatch(sqlCompra);
+            psmtCompra.execute();
+                for(int i=0 ; i<produtos.length;i++){
+                    psmtItens.setString(1,colunas[0]);
+                    psmtItens.addBatch(sqlItens);
+                    psmtItens.setString(2,produtos[i]);
+                    psmtItens.addBatch(sqlItens);
+                    psmtItens.execute();
                 }
-                
             }
-            
-            //psmt.executeBatch();
-            //psmt.close();
-            connection.commit();
+            psmtCompra.close();
+            psmtItens.close();
+            //connection.commit();
             connection.close();
             this.dispose();
         } catch (SQLException ex) {
