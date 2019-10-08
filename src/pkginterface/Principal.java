@@ -65,6 +65,11 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1.add(menuCriar);
 
         jMenu3.setText("Relatorio");
+        jMenu3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu3ActionPerformed(evt);
+            }
+        });
 
         jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("Gerar Relatorio");
@@ -118,8 +123,13 @@ public class Principal extends javax.swing.JFrame {
 
     private void jRadioButtonMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem1ActionPerformed
         Relatorio r=new Relatorio();
+        jDesktopPane1.add(r);
         r.setVisible(true);
     }//GEN-LAST:event_jRadioButtonMenuItem1ActionPerformed
+
+    private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
+        
+    }//GEN-LAST:event_jMenu3ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
