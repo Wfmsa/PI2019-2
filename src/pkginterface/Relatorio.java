@@ -1,27 +1,25 @@
 package pkginterface;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.StringJoiner;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import weka.core.Instances;
-import weka.core.converters.ArffSaver;
-import weka.core.converters.CSVLoader;
 
 public class Relatorio extends javax.swing.JInternalFrame {
 
     public Relatorio() {
         initComponents();
     }
+
+   
     CriarCompra cc = new CriarCompra();
+    ArrayList<String> listaProd = new ArrayList<String>();
+    String descProd;
+    int idProd;
+    int idProdItem;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -87,70 +85,65 @@ public class Relatorio extends javax.swing.JInternalFrame {
     private void btnGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelatorioActionPerformed
 
         try {
-            Connection connection = Conexao.getInstance().getConnection();
-            String sqlPegarProd = "SELECT * FROM produto";
-            //String sqlItens = "INSERT INTO itens(idcompra,idproduto)" + "VALUES (?, ?)";
-            PreparedStatement psmtCompra = connection.prepareStatement(sqlPegarProd);
-            // PreparedStatement psmtItens = connection.prepareStatement(sqlItens);
-            ResultSet rs = psmtCompra.executeQuery("SELECT * FROM produto");
-
-            while (rs.next()) {
-
-                String prod = rs.getString("descproduto");
-                System.out.println("@attribute " + prod+"{y,?}");
-            }
+            try (Connection connection = Conexao.getInstance().getConnection()) {
+                String sqlPegarProd = "SELECT * FROM produto";
+                String sqlPegarItens = "SELECT `idcompra`, `idproduto` FROM `itens` WHERE idcompra=12";
+                //String sqlTabCompra = "SELECET * FROM compra";
+                PreparedStatement psmtPegarCompra = connection.prepareStatement(sqlPegarProd);
+                PreparedStatement psmtPegarItens = connection.prepareStatement(sqlPegarItens);
+                //PreparedStatement psmtTabCompra = connection.prepareStatement(sqlTabCompra);
+                ResultSet rs = psmtPegarCompra.executeQuery();
+                
+                
+                while (rs.next()) {
+                    this.descProd = rs.getString("descproduto");
+                    this.listaProd.add("@attribute " + this.descProd + "{y,?}\n");
+                }   this.listaProd.add("@data\n");
+    
+               
             
-            /*while(rs.next()){
-             Object o[] = {rs.getString("descrição")};
-             System.out.println(o);
-             }*/
-            /*while (lerArq.ready()) {
-             String linha = lerArq.readLine();
-             String colunas[] = linha.split(";");
-             String produtos[] = colunas[3].split(",");
-             psmtCompra.setString(1, colunas[0]);
-             psmtCompra.addBatch(sqlCompra);
-             psmtCompra.setString(2, colunas[1]);
-             psmtCompra.addBatch(sqlCompra);
-             psmtCompra.setString(3, colunas[2]);
-             psmtCompra.addBatch(sqlCompra);
-             psmtCompra.execute();
-             for (int i = 0; i < produtos.length; i++) {
-             psmtItens.setString(1, colunas[0]);
-             psmtItens.addBatch(sqlItens);
-             psmtItens.setString(2, produtos[i]);
-             psmtItens.addBatch(sqlItens);
-             psmtItens.execute();
-             }
-             }*/
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                System.out.println(listaProd);
+                /*while(rs.next()){
+                Object o[] = {rs.getString("descrição")};
+                System.out.println(o);
+                }*/
+                /*while (lerArq.ready()) {
+                String linha = lerArq.readLine();
+                String colunas[] = linha.split(";");
+                String produtos[] = colunas[3].split(",");
+                psmtCompra.setString(1, colunas[0]);
+                psmtCompra.addBatch(sqlCompra);
+                psmtCompra.setString(2, colunas[1]);
+                psmtCompra.addBatch(sqlCompra);
+                psmtCompra.setString(3, colunas[2]);
+                psmtCompra.addBatch(sqlCompra);
+                psmtCompra.execute();
+                for (int i = 0; i < produtos.length; i++) {
+                psmtItens.setString(1, colunas[0]);
+                psmtItens.addBatch(sqlItens);
+                psmtItens.setString(2, produtos[i]);
+                psmtItens.addBatch(sqlItens);
+                psmtItens.execute();
+                }
+                }*/
                 //psmtCompra.close();
-            //psmtItens.close();
-            connection.close();
-            //this.dispose();
-        } catch (SQLException ex) {
-            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+                //psmtItens.close();
+                //this.dispose();
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
-        /*CSVLoader loader = new CSVLoader();
-       
-         loader.setSource(new File(f1));
-        
-         Logger.getLogger(Relatorio.class.getName()).log(Level.SEVERE, null, ex);
-        
-         String[] options = new String[1];
-         options[0] = "-H";
-         loader.setOptions(options);
-
-         Instances data = loader.getDataSet();
-
-         ArffSaver saver = new ArffSaver();
-         saver.setInstances(data);
-         saver.setFile(new File(f2));
-         saver.setDestination(new File(f2));
-         saver.writeBatch();*/
     }//GEN-LAST:event_btnGerarRelatorioActionPerformed
 
 
