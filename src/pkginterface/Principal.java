@@ -6,6 +6,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); 
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -131,7 +132,7 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenu3ActionPerformed
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws Exception {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -158,6 +159,7 @@ public class Principal extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+           
             public void run() {
                 new Principal().setVisible(true);
             }
