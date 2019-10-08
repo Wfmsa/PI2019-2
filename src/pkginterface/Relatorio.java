@@ -7,7 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import weka.core.Instances;
@@ -19,7 +21,8 @@ public class Relatorio extends javax.swing.JInternalFrame {
     public Relatorio() {
         initComponents();
     }
-CriarCompra cc=new CriarCompra();
+    CriarCompra cc = new CriarCompra();
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -83,65 +86,71 @@ CriarCompra cc=new CriarCompra();
 
     private void btnGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelatorioActionPerformed
 
-        String f1 ;
-        String f2 = null;
-        
         try {
-                Connection connection = Conexao.getInstance().getConnection();
-                String sqlPegarProd = "SELECT * FROM produto";
-                //String sqlItens = "INSERT INTO itens(idcompra,idproduto)" + "VALUES (?, ?)";
-                connection.setAutoCommit(true);
-                PreparedStatement psmtCompra = connection.prepareStatement(sqlPegarProd);
-               // PreparedStatement psmtItens = connection.prepareStatement(sqlItens);
-                txtaTeste.setText(sqlPegarProd);
-                
-                /*while (lerArq.ready()) {
-                    String linha = lerArq.readLine();
-                    String colunas[] = linha.split(";");
-                    String produtos[] = colunas[3].split(",");
-                    psmtCompra.setString(1, colunas[0]);
-                    psmtCompra.addBatch(sqlCompra);
-                    psmtCompra.setString(2, colunas[1]);
-                    psmtCompra.addBatch(sqlCompra);
-                    psmtCompra.setString(3, colunas[2]);
-                    psmtCompra.addBatch(sqlCompra);
-                    psmtCompra.execute();
-                    for (int i = 0; i < produtos.length; i++) {
-                        psmtItens.setString(1, colunas[0]);
-                        psmtItens.addBatch(sqlItens);
-                        psmtItens.setString(2, produtos[i]);
-                        psmtItens.addBatch(sqlItens);
-                        psmtItens.execute();
-                    }
-                }*/
-                psmtCompra.close();
-                //psmtItens.close();
-                connection.close();
-                //this.dispose();
-            } catch (SQLException ex) {
-                Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+            Connection connection = Conexao.getInstance().getConnection();
+            String sqlPegarProd = "SELECT * FROM produto";
+            //String sqlItens = "INSERT INTO itens(idcompra,idproduto)" + "VALUES (?, ?)";
+            PreparedStatement psmtCompra = connection.prepareStatement(sqlPegarProd);
+            // PreparedStatement psmtItens = connection.prepareStatement(sqlItens);
+            ResultSet rs = psmtCompra.executeQuery("SELECT * FROM produto");
+
+            while (rs.next()) {
+
+                String prod = rs.getString("descproduto");
+                System.out.println("@attribute " + prod+"{y,?}");
             }
+            
+            /*while(rs.next()){
+             Object o[] = {rs.getString("descrição")};
+             System.out.println(o);
+             }*/
+            /*while (lerArq.ready()) {
+             String linha = lerArq.readLine();
+             String colunas[] = linha.split(";");
+             String produtos[] = colunas[3].split(",");
+             psmtCompra.setString(1, colunas[0]);
+             psmtCompra.addBatch(sqlCompra);
+             psmtCompra.setString(2, colunas[1]);
+             psmtCompra.addBatch(sqlCompra);
+             psmtCompra.setString(3, colunas[2]);
+             psmtCompra.addBatch(sqlCompra);
+             psmtCompra.execute();
+             for (int i = 0; i < produtos.length; i++) {
+             psmtItens.setString(1, colunas[0]);
+             psmtItens.addBatch(sqlItens);
+             psmtItens.setString(2, produtos[i]);
+             psmtItens.addBatch(sqlItens);
+             psmtItens.execute();
+             }
+             }*/
+                //psmtCompra.close();
+            //psmtItens.close();
+            connection.close();
+            //this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CriarCompra.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
 
         /*CSVLoader loader = new CSVLoader();
        
-            loader.setSource(new File(f1));
+         loader.setSource(new File(f1));
         
-            Logger.getLogger(Relatorio.class.getName()).log(Level.SEVERE, null, ex);
+         Logger.getLogger(Relatorio.class.getName()).log(Level.SEVERE, null, ex);
         
-        String[] options = new String[1];
-        options[0] = "-H";
-        loader.setOptions(options);
+         String[] options = new String[1];
+         options[0] = "-H";
+         loader.setOptions(options);
 
-        Instances data = loader.getDataSet();
+         Instances data = loader.getDataSet();
 
-        ArffSaver saver = new ArffSaver();
-        saver.setInstances(data);
-        saver.setFile(new File(f2));
-        saver.setDestination(new File(f2));
-        saver.writeBatch();*/
+         ArffSaver saver = new ArffSaver();
+         saver.setInstances(data);
+         saver.setFile(new File(f2));
+         saver.setDestination(new File(f2));
+         saver.writeBatch();*/
     }//GEN-LAST:event_btnGerarRelatorioActionPerformed
 
 
