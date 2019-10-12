@@ -18,8 +18,8 @@ public class Relatorio extends javax.swing.JInternalFrame {
     CriarCompra cc = new CriarCompra();
     ArrayList<String> listaProd = new ArrayList<String>();
     String descProd;
-    int idProd;
-    int idProdItens;
+    private ArrayList<Integer> idProdProduto = new ArrayList<Integer>();
+    private ArrayList<Integer> idProdItens = new ArrayList<Integer>(); 
     private ArrayList<Integer> idcompraCompra = new ArrayList<Integer>();
 
     /*public class ArrayToString {
@@ -100,7 +100,7 @@ public class Relatorio extends javax.swing.JInternalFrame {
         try (Connection connection = Conexao.getInstance().getConnection()) {
             String sqlPegardescProd = "SELECT `descproduto` FROM `produto`";
             String sqlPegaridCompraItens = "SELECT `idcompra` FROM `itens`";
-            String sqlPegaridProdItens = "SELECT `idproduto` FROM `itens`";
+            String sqlPegaridProdItens = "SELECT `idproduto` FROM `itens` WHERE `idcompra`=";
             String sqlPegaridProd = "SELECT `idproduto` FROM `produto`";
             String sqlPegaridCompra = "SELECT `idcompra` FROM `compra`";
 
@@ -123,22 +123,49 @@ public class Relatorio extends javax.swing.JInternalFrame {
                 this.listaProd.add("@attribute " + this.descProd + "{y,n}\n");
             }
             this.listaProd.add("\n@data\n");
+            
             while (rs5.next()) {
                 int auxFodase;
                 auxFodase = rs5.getInt("idcompra");
                 idcompraCompra.add(auxFodase);
 
             }
+            
+            while(rs4.next()){
+                int aux;
+                aux = rs4.getInt("idproduto");
+                idProdProduto.add(aux);
+                
+            }
+            
+            while(rs3.next()){
+                int aux;
+                aux = rs3.getInt("idproduto");
+                idProdItens.add(aux);
+                
+            }
+            
+            System.out.println(rs5);
             //System.out.println(idcompraCompra);
 
-            for (int i = 0; i <= idcompraCompra.size(); i++) {
-                int idprodteste, idprodtesteitens;
-                idprodteste = rs4.getInt("idproduto");
-                idprodtesteitens = rs3.getInt("idproduto");
-                System.out.println(idprodteste);
-                System.out.println(idprodtesteitens);
-                System.out.println(i);
-            }
+            /*for (int i = 0; i <= idcompraCompra.size(); i++) {
+                System.out.println("\n");
+                for(int j = 0;j <= this.idProdProduto.size();j++){
+                    for(int k =0;k <=this.idProdItens.size();k++){
+                    if(j==k){
+                        this.listaProd.add("y");
+                    }else{
+                        this.listaProd.add("?");
+                    }
+                    }
+                
+                    
+                    
+                    
+                }
+               
+                
+            }*/
 
             /*if (idProdItens == idProd) {
 
@@ -153,7 +180,7 @@ public class Relatorio extends javax.swing.JInternalFrame {
             rs2.close();
             rs3.close();
             rs4.close();
-            //System.out.println(this.listaProd);
+            System.out.println(this.listaProd);
             /*FileWriter fw = new FileWriter("C:\\Users\\user\\Desktop\\Weka_Teste.arff");
              fw= convertArrayToString(this.listaProd);
              for (String s : this.listaProd) {
