@@ -20,17 +20,17 @@ public class Relatorio extends javax.swing.JInternalFrame {
     String descProd;
     int idProd;
     int idProdItens;
-    int idCompra[];
+    private ArrayList<Integer> idcompraCompra = new ArrayList<Integer>();
 
     /*public class ArrayToString {
-    Relatorio r=new Relatorio();
-        {
+     Relatorio r=new Relatorio();
+     {
      String [] strArray = new String [] {listaProd.toString()};
-            String newString = Arrays.toString (strArray) ;
-            newString = newString.substring (1, newString.length () - 1);     
-            r.listaProdS=newString;
-          }
-}
+     String newString = Arrays.toString (strArray) ;
+     newString = newString.substring (1, newString.length () - 1);     
+     r.listaProdS=newString;
+     }
+     }
      */
     String listaProdS;
 
@@ -98,11 +98,11 @@ public class Relatorio extends javax.swing.JInternalFrame {
     private void btnGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelatorioActionPerformed
 
         try (Connection connection = Conexao.getInstance().getConnection()) {
-            String sqlPegardescProd = "SELECT descproduto FROM produto";
-            String sqlPegaridCompraItens = "SELECT idcompra FROM itens";
-            String sqlPegaridProdItens = "SELECT idproduto FROM itens";
-            String sqlPegaridProd = "SELECT idproduto FROM produto";
-            String sqlPegaridCompra = "SELECT idcompra FROM compra";
+            String sqlPegardescProd = "SELECT `descproduto` FROM `produto`";
+            String sqlPegaridCompraItens = "SELECT `idcompra` FROM `itens`";
+            String sqlPegaridProdItens = "SELECT `idproduto` FROM `itens`";
+            String sqlPegaridProd = "SELECT `idproduto` FROM `produto`";
+            String sqlPegaridCompra = "SELECT `idcompra` FROM `compra`";
 
             PreparedStatement psmtPegarDescProd = connection.prepareStatement(sqlPegardescProd);
             PreparedStatement psmtPegaridCompraItens = connection.prepareStatement(sqlPegaridCompraItens);
@@ -116,55 +116,56 @@ public class Relatorio extends javax.swing.JInternalFrame {
             rs3 = psmtPegarProdItens.executeQuery();
             rs4 = psmtPegaridProd.executeQuery();
             rs5 = psmtPegaridCompra.executeQuery();
-            
+
             this.listaProd.add("@relation \"Teste\"\n\n");
             while (rs.next()) {
                 this.descProd = rs.getString("descproduto");
                 this.listaProd.add("@attribute " + this.descProd + "{y,n}\n");
             }
             this.listaProd.add("\n@data\n");
-            for(int ){
-                
+            while (rs5.next()) {
+                int auxFodase;
+                auxFodase = rs5.getInt("idcompra");
+                idcompraCompra.add(auxFodase);
+
             }
-            
-        
-            
-            
-            
-            
+            //System.out.println(idcompraCompra);
 
-          
-
-        if (idProdItens == idProd) {
-
-            this.listaProd.add("y");
-
-        } else {
-
-            this.listaProd.add("?");
-
-        }
-        rs.close();
-        rs2.close();
-        rs3.close();
-        rs4.close();
-        System.out.println(this.listaProd);
-        /*FileWriter fw = new FileWriter("C:\\Users\\user\\Desktop\\Weka_Teste.arff");
-            fw= convertArrayToString(this.listaProd);
-            for (String s : this.listaProd) {
-            fw.append(s);
+            for (int i = 0; i <= idcompraCompra.size(); i++) {
+                int idprodteste, idprodtesteitens;
+                idprodteste = rs4.getInt("idproduto");
+                idprodtesteitens = rs3.getInt("idproduto");
+                System.out.println(idprodteste);
+                System.out.println(idprodtesteitens);
+                System.out.println(i);
             }
-            fw.close();*/
 
-        //Weka aa = new Weka();
-        //txtCaixa.setText(aa.a);
-    }
-    catch (Exception ex
+            /*if (idProdItens == idProd) {
 
-    
-        ) {
+             this.listaProd.add("y");
+
+             } else {
+
+             this.listaProd.add("?");
+
+             }*/
+            rs.close();
+            rs2.close();
+            rs3.close();
+            rs4.close();
+            //System.out.println(this.listaProd);
+            /*FileWriter fw = new FileWriter("C:\\Users\\user\\Desktop\\Weka_Teste.arff");
+             fw= convertArrayToString(this.listaProd);
+             for (String s : this.listaProd) {
+             fw.append(s);
+             }
+             fw.close();*/
+
+            //Weka aa = new Weka();
+            //txtCaixa.setText(aa.a);
+        } catch (Exception ex) {
             Logger.getLogger(Relatorio.class.getName()).log(Level.SEVERE, null, ex);
-    }
+        }
     }//GEN-LAST:event_btnGerarRelatorioActionPerformed
 
 
