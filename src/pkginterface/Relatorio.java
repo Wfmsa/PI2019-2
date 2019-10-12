@@ -19,9 +19,10 @@ public class Relatorio extends javax.swing.JInternalFrame {
     ArrayList<String> listaProd = new ArrayList<String>();
     String descProd;
     int idProd;
-    int idProdItem;
-    
-/*public class ArrayToString {
+    int idProdItens;
+    int idCompra[];
+
+    /*public class ArrayToString {
     Relatorio r=new Relatorio();
         {
      String [] strArray = new String [] {listaProd.toString()};
@@ -30,8 +31,8 @@ public class Relatorio extends javax.swing.JInternalFrame {
             r.listaProdS=newString;
           }
 }
-*/
-String listaProdS;
+     */
+    String listaProdS;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -97,31 +98,73 @@ String listaProdS;
     private void btnGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelatorioActionPerformed
 
         try (Connection connection = Conexao.getInstance().getConnection()) {
-            String sqlPegarProd = "SELECT * FROM produto";
-            String sqlPegarItens = "SELECT `idcompra`, `idproduto` FROM `itens` WHERE idcompra=12";
-            //String sqlTabCompra = "SELECET * FROM compra";
-            PreparedStatement psmtPegarCompra = connection.prepareStatement(sqlPegarProd);
-            PreparedStatement psmtPegarItens = connection.prepareStatement(sqlPegarItens);
-            //PreparedStatement psmtTabCompra = connection.prepareStatement(sqlTabCompra);
-            ResultSet rs = psmtPegarCompra.executeQuery();
+            String sqlPegardescProd = "SELECT descproduto FROM produto";
+            String sqlPegaridCompraItens = "SELECT idcompra FROM itens";
+            String sqlPegaridProdItens = "SELECT idproduto FROM itens";
+            String sqlPegaridProd = "SELECT idproduto FROM produto";
+            String sqlPegaridCompra = "SELECT idcompra FROM compra";
+
+            PreparedStatement psmtPegarDescProd = connection.prepareStatement(sqlPegardescProd);
+            PreparedStatement psmtPegaridCompraItens = connection.prepareStatement(sqlPegaridCompraItens);
+            PreparedStatement psmtPegarProdItens = connection.prepareStatement(sqlPegaridProdItens);
+            PreparedStatement psmtPegaridProd = connection.prepareStatement(sqlPegaridProd);
+            PreparedStatement psmtPegaridCompra = connection.prepareStatement(sqlPegaridCompra);
+
+            ResultSet rs, rs2, rs3, rs4, rs5;
+            rs = psmtPegarDescProd.executeQuery();
+            rs2 = psmtPegaridCompraItens.executeQuery();
+            rs3 = psmtPegarProdItens.executeQuery();
+            rs4 = psmtPegaridProd.executeQuery();
+            rs5 = psmtPegaridCompra.executeQuery();
+            
             this.listaProd.add("@relation \"Teste\"\n\n");
             while (rs.next()) {
                 this.descProd = rs.getString("descproduto");
                 this.listaProd.add("@attribute " + this.descProd + "{y,n}\n");
             }
             this.listaProd.add("\n@data\n");
-            /*FileWriter fw = new FileWriter("C:\\Users\\Wfmsa PC\\Desktop\\Weka_Teste.arff");
-            //fw= convertArrayToString(this.listaProd);
+            for(int ){
+                
+            }
+            
+        
+            
+            
+            
+            
+
+          
+
+        if (idProdItens == idProd) {
+
+            this.listaProd.add("y");
+
+        } else {
+
+            this.listaProd.add("?");
+
+        }
+        rs.close();
+        rs2.close();
+        rs3.close();
+        rs4.close();
+        System.out.println(this.listaProd);
+        /*FileWriter fw = new FileWriter("C:\\Users\\user\\Desktop\\Weka_Teste.arff");
+            fw= convertArrayToString(this.listaProd);
             for (String s : this.listaProd) {
             fw.append(s);
             }
-            fw.close();
-            */
-            Weka aa = new Weka();
-            txtCaixa.setText(aa.a);
-        } catch (Exception ex) {
+            fw.close();*/
+
+        //Weka aa = new Weka();
+        //txtCaixa.setText(aa.a);
+    }
+    catch (Exception ex
+
+    
+        ) {
             Logger.getLogger(Relatorio.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    }
     }//GEN-LAST:event_btnGerarRelatorioActionPerformed
 
 
