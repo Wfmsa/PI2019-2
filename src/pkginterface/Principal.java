@@ -47,7 +47,7 @@ public class Principal extends javax.swing.JFrame {
 
         menuCriar.setText("Criar");
 
-        jMenuItem1.setText("Criar Compra");
+        jMenuItem1.setText("Criar Venda");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
