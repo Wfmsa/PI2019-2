@@ -20,7 +20,14 @@ public class Relatorio extends javax.swing.JInternalFrame {
 
     ArrayList<String> listaProd = new ArrayList<String>();
     String descProd;
+<<<<<<< HEAD
     private ArrayList<Integer> listaCodProdutos = new ArrayList<Integer>();
+=======
+    private ArrayList<Integer> idProdProduto = new ArrayList<Integer>();
+    private ArrayList<Integer> idProdItens = new ArrayList<Integer>(); 
+    private ArrayList<Integer> idcompraCompra = new ArrayList<Integer>();
+
+>>>>>>> b13c79f4e7854e50c1aad1d2d46f338730110884
     /*public class ArrayToString {
      Relatorio r=new Relatorio();
      {
@@ -130,8 +137,15 @@ public class Relatorio extends javax.swing.JInternalFrame {
     private void btnGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelatorioActionPerformed
 
         try (Connection connection = Conexao.getInstance().getConnection()) {
+<<<<<<< HEAD
             
             String sqlPegardescProd = "SELECT * FROM `produto` order by idproduto";
+=======
+            String sqlPegardescProd = "SELECT `descproduto` FROM `produto`";
+            String sqlPegaridCompraItens = "SELECT `idcompra` FROM `itens`";
+            String sqlPegaridProdItens = "SELECT `idproduto` FROM `itens` WHERE `idcompra`=";
+            String sqlPegaridProd = "SELECT `idproduto` FROM `produto`";
+>>>>>>> b13c79f4e7854e50c1aad1d2d46f338730110884
             String sqlPegaridCompra = "SELECT `idcompra` FROM `compra`";
             
             
@@ -145,6 +159,7 @@ public class Relatorio extends javax.swing.JInternalFrame {
             arquivoWeka+="@relation \"Teste\"\n\n";
             while (rs.next()) {
                 this.descProd = rs.getString("descproduto");
+<<<<<<< HEAD
                 arquivoWeka+="@attribute " + this.descProd + "{y,n}\n";
                 listaCodProdutos.add(rs.getInt("idproduto"));
             }
@@ -186,6 +201,78 @@ public class Relatorio extends javax.swing.JInternalFrame {
             
             //txtCaixa.setText(w.retornoWeka);
             //System.out.println(arquivoWeka);
+=======
+                this.listaProd.add("@attribute " + this.descProd + "{y,n}\n");
+            }
+            this.listaProd.add("\n@data\n");
+            
+            while (rs5.next()) {
+                int auxFodase;
+                auxFodase = rs5.getInt("idcompra");
+                idcompraCompra.add(auxFodase);
+
+            }
+            
+            while(rs4.next()){
+                int aux;
+                aux = rs4.getInt("idproduto");
+                idProdProduto.add(aux);
+                
+            }
+            
+            while(rs3.next()){
+                int aux;
+                aux = rs3.getInt("idproduto");
+                idProdItens.add(aux);
+                
+            }
+            
+            System.out.println(rs5);
+            //System.out.println(idcompraCompra);
+
+            /*for (int i = 0; i <= idcompraCompra.size(); i++) {
+                System.out.println("\n");
+                for(int j = 0;j <= this.idProdProduto.size();j++){
+                    for(int k =0;k <=this.idProdItens.size();k++){
+                    if(j==k){
+                        this.listaProd.add("y");
+                    }else{
+                        this.listaProd.add("?");
+                    }
+                    }
+                
+                    
+                    
+                    
+                }
+               
+                
+            }*/
+
+            /*if (idProdItens == idProd) {
+
+             this.listaProd.add("y");
+
+             } else {
+
+             this.listaProd.add("?");
+
+             }*/
+            rs.close();
+            rs2.close();
+            rs3.close();
+            rs4.close();
+            System.out.println(this.listaProd);
+            /*FileWriter fw = new FileWriter("C:\\Users\\user\\Desktop\\Weka_Teste.arff");
+             fw= convertArrayToString(this.listaProd);
+             for (String s : this.listaProd) {
+             fw.append(s);
+             }
+             fw.close();*/
+
+            //Weka aa = new Weka();
+            //txtCaixa.setText(aa.a);
+>>>>>>> b13c79f4e7854e50c1aad1d2d46f338730110884
         } catch (Exception ex) {
             Logger.getLogger(Relatorio.class.getName()).log(Level.SEVERE, null, ex);
         }
