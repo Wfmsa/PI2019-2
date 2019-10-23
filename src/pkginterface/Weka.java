@@ -18,7 +18,7 @@ public class Weka {
         model.buildAssociations(data);
         retornoWeka = model.toString();
         System.out.println(retornoWeka);
-        r.setTxtCaixa(retornoWeka);
+        //r.setTxtCaixa(retornoWeka);
     }
 
 }

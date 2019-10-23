@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,9 +17,8 @@ public class Relatorio extends javax.swing.JInternalFrame {
     CriarCompra cc = new CriarCompra();
     ArrayList<String> listaProd = new ArrayList<String>();
     String descProd;
+    String arquivoWeka = "";
     private ArrayList<Integer> listaCodProdutos = new ArrayList<Integer>();
-    private ArrayList<Integer> idProdItens = new ArrayList<Integer>(); 
-    private ArrayList<Integer> idcompraCompra = new ArrayList<Integer>();
 
     /*public class ArrayToString {
      Relatorio r=new Relatorio();
@@ -100,7 +98,7 @@ public class Relatorio extends javax.swing.JInternalFrame {
         try (Connection connection = Conexao.getInstance().getConnection()) {
             String sqlPegardescProd = "SELECT * FROM `produto` order by idproduto";
             String sqlPegaridCompra = "SELECT `idcompra` FROM `compra`";
-            String saidaArquivo = "";
+            
             
             PreparedStatement psmtPegarDescProd = connection.prepareStatement(sqlPegardescProd);
             PreparedStatement psmtPegaridCompra = connection.prepareStatement(sqlPegaridCompra);
@@ -109,14 +107,14 @@ public class Relatorio extends javax.swing.JInternalFrame {
             rs = psmtPegarDescProd.executeQuery();
             rs2 = psmtPegaridCompra.executeQuery();
       
-            saidaArquivo+="@relation \"Teste\"\n\n";
+            arquivoWeka+="@relation \"Teste\"\n\n";
             while (rs.next()) {
                 this.descProd = rs.getString("descproduto");
-                saidaArquivo+="@attribute " + this.descProd + "{y,n}\n";
+                arquivoWeka+="@attribute " + this.descProd + "{y,n}\n";
                 listaCodProdutos.add(rs.getInt("idproduto"));
             }
             
-            saidaArquivo+="\n@data\n";
+            arquivoWeka+="\n@data\n";
             
             while(rs2.next()){
                 String sqlPegarItens = "SELECT idproduto FROM itens where idcompra = "+rs2.getString("idcompra")+
@@ -145,12 +143,12 @@ public class Relatorio extends javax.swing.JInternalFrame {
                 }
                 saida = (String) saida.subSequence(0, saida.length()-1);
                 saida+="}\n";
-                saidaArquivo+= saida;
+                arquivoWeka+= saida;
                 rs3.close();                
             }
             rs2.close();
             rs.close();
-            System.out.println(saidaArquivo);
+            System.out.println(arquivoWeka);
         } catch (Exception ex) {
             Logger.getLogger(Relatorio.class.getName()).log(Level.SEVERE, null, ex);
         }
