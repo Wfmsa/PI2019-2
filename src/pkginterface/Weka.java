@@ -11,7 +11,7 @@ public class Weka {
     public Weka() throws Exception {
         Relatorio r = new Relatorio();
 
-        String dataset = r.arquivoWeka;
+        String dataset = ("C:\\Users\\user\\Desktop\\Teste.arff");
         DataSource source = new DataSource(dataset);
         Instances data = source.getDataSet();
         Apriori model = new Apriori();

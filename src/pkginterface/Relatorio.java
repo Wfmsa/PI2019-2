@@ -1,6 +1,8 @@
 package pkginterface;
 
+import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -98,57 +100,72 @@ public class Relatorio extends javax.swing.JInternalFrame {
         try (Connection connection = Conexao.getInstance().getConnection()) {
             String sqlPegardescProd = "SELECT * FROM `produto` order by idproduto";
             String sqlPegaridCompra = "SELECT `idcompra` FROM `compra`";
-            
-            
+
             PreparedStatement psmtPegarDescProd = connection.prepareStatement(sqlPegardescProd);
             PreparedStatement psmtPegaridCompra = connection.prepareStatement(sqlPegaridCompra);
 
             ResultSet rs, rs2, rs3;
             rs = psmtPegarDescProd.executeQuery();
             rs2 = psmtPegaridCompra.executeQuery();
-      
-            arquivoWeka+="@relation \"Teste\"\n\n";
+
+            arquivoWeka += "@relation \"Teste\"\n\n";
             while (rs.next()) {
                 this.descProd = rs.getString("descproduto");
-                arquivoWeka+="@attribute " + this.descProd + "{y,n}\n";
+                arquivoWeka += "@attribute " + this.descProd + "{y,n}\n";
                 listaCodProdutos.add(rs.getInt("idproduto"));
             }
-            
-            arquivoWeka+="\n@data\n";
-            
-            while(rs2.next()){
-                String sqlPegarItens = "SELECT idproduto FROM itens where idcompra = "+rs2.getString("idcompra")+
-                        " order by idproduto";                
+
+            arquivoWeka += "\n@data\n";
+
+            while (rs2.next()) {
+                String sqlPegarItens = "SELECT idproduto FROM itens where idcompra = " + rs2.getString("idcompra")
+                        + " order by idproduto";
                 PreparedStatement psmtPegaridProd = connection.prepareStatement(sqlPegarItens);
                 rs3 = psmtPegaridProd.executeQuery();
                 rs3.next();
-                String saida = "{";
-                for(int i = 0; i < listaCodProdutos.size();i++){
-                    
-                    int codigo = listaCodProdutos.get(i);                    
-                    if(codigo==rs3.getInt("idproduto")){
-                        saida+="y,";
-                    }else{
-                        saida+="?,";
+                String saida = "";
+                for (int i = 0; i < listaCodProdutos.size(); i++) {
+
+                    int codigo = listaCodProdutos.get(i);
+                    if (codigo == rs3.getInt("idproduto")) {
+                        saida += "y,";
+                    } else {
+                        saida += "?,";
                     }
-                    
-                    if(codigo>=rs3.getInt("idproduto")){                        
-                        if(!rs3.next()){
-                            for(int j = 1; j < (listaCodProdutos.size()-i);j++){
-                                saida+="?,";
+
+                    if (codigo >= rs3.getInt("idproduto")) {
+                        if (!rs3.next()) {
+                            for (int j = 1; j < (listaCodProdutos.size() - i); j++) {
+                                saida += "?,";
                             }
-                           break;
+                            break;
                         }
                     }
                 }
-                saida = (String) saida.subSequence(0, saida.length()-1);
-                saida+="}\n";
-                arquivoWeka+= saida;
-                rs3.close();                
+                saida = (String) saida.subSequence(0, saida.length() - 1);
+                saida += "\n";
+                arquivoWeka += saida;
+                rs3.close();
             }
             rs2.close();
             rs.close();
             System.out.println(arquivoWeka);
+           
+            StringBuffer str = new StringBuffer();
+            str.append(arquivoWeka);
+            try {
+                FileWriter out = new FileWriter("C:\\Users\\user\\Desktop\\Teste.arff");
+                out.write(str.toString()); 
+                out.close();  
+            } catch (IOException e) {            
+                e.printStackTrace();      
+            }
+            
+            Weka w = new Weka();
+            System.out.println(w.retornoWeka);
+            
+           
+            
         } catch (Exception ex) {
             Logger.getLogger(Relatorio.class.getName()).log(Level.SEVERE, null, ex);
         }
