@@ -2,12 +2,15 @@ package pkginterface;
 
 public class Principal extends javax.swing.JFrame {
 
- 
     public Principal() {
         initComponents();
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); 
-        
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+
     }
+
+    CriarCompra c = new CriarCompra();
+    CriarProduto c2 = new CriarProduto();
+    Relatorio r = new Relatorio();
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -107,29 +110,32 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        CriarCompra c =new CriarCompra();
         jDesktopPane1.add(c);
         c.setVisible(true);
+
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.dispose();
+        if (this.c.isVisible() == true || this.c2.isVisible() == true || this.r.isVisible() == true) {
+
+        } else {
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        CriarProduto c =new CriarProduto();
-        jDesktopPane1.add(c);
-        c.setVisible(true);
+        jDesktopPane1.add(c2);
+        c2.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jRadioButtonMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem1ActionPerformed
-        Relatorio r=new Relatorio();
         jDesktopPane1.add(r);
         r.setVisible(true);
     }//GEN-LAST:event_jRadioButtonMenuItem1ActionPerformed
 
     private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
-        
+
     }//GEN-LAST:event_jMenu3ActionPerformed
 
     public static void main(String args[]) throws Exception {
@@ -159,7 +165,7 @@ public class Principal extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-           
+
             public void run() {
                 new Principal().setVisible(true);
             }
@@ -177,4 +183,5 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JMenu menuCriar;
     // End of variables declaration//GEN-END:variables
+
 }
