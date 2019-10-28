@@ -11,14 +11,14 @@ public class Weka {
     public Weka() throws Exception {
         Relatorio r = new Relatorio();
 
-        String dataset = ("C:\\Users\\user\\Desktop\\Teste.arff");
+        String dataset = (r.arquivo.getAbsolutePath());
         DataSource source = new DataSource(dataset);
         Instances data = source.getDataSet();
         Apriori model = new Apriori();
         model.buildAssociations(data);
         retornoWeka = model.toString();
-        System.out.println(retornoWeka);
-        //r.setTxtCaixa(retornoWeka);
+        //System.out.println(retornoWeka);
+        //r.txtCaixa.setText(retornoWeka);
     }
 
 }
