@@ -24,6 +24,7 @@ public class Relatorio extends javax.swing.JInternalFrame {
     File arquivo = new File("teste.arff");
     private ArrayList<Integer> listaCodProdutos = new ArrayList<Integer>();
     String listaProdS;
+    String semana;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -41,13 +42,13 @@ public class Relatorio extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         btnMes = new javax.swing.JCheckBox();
         btnSemana = new javax.swing.JCheckBox();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jCheckBox7 = new javax.swing.JCheckBox();
+        box1 = new javax.swing.JCheckBox();
+        box3 = new javax.swing.JCheckBox();
+        box5 = new javax.swing.JCheckBox();
+        box2 = new javax.swing.JCheckBox();
+        box4 = new javax.swing.JCheckBox();
+        box6 = new javax.swing.JCheckBox();
+        box7 = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtCaixa = new javax.swing.JTextArea();
 
@@ -102,26 +103,31 @@ public class Relatorio extends javax.swing.JInternalFrame {
             }
         });
 
-        jCheckBox1.setText("Segunda-Feira");
-        jCheckBox1.setEnabled(false);
+        box1.setText("Segunda-Feira");
+        box1.setEnabled(false);
+        box1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                box1ActionPerformed(evt);
+            }
+        });
 
-        jCheckBox2.setText("Quarta-Feira");
-        jCheckBox2.setEnabled(false);
+        box3.setText("Quarta-Feira");
+        box3.setEnabled(false);
 
-        jCheckBox3.setText("Sexta_Feira");
-        jCheckBox3.setEnabled(false);
+        box5.setText("Sexta_Feira");
+        box5.setEnabled(false);
 
-        jCheckBox4.setText("Terça-Feira");
-        jCheckBox4.setEnabled(false);
+        box2.setText("Terça-Feira");
+        box2.setEnabled(false);
 
-        jCheckBox5.setText("Quinta-Feira");
-        jCheckBox5.setEnabled(false);
+        box4.setText("Quinta-Feira");
+        box4.setEnabled(false);
 
-        jCheckBox6.setText("Sábado");
-        jCheckBox6.setEnabled(false);
+        box6.setText("Sábado");
+        box6.setEnabled(false);
 
-        jCheckBox7.setText("Domingo");
-        jCheckBox7.setEnabled(false);
+        box7.setText("Domingo");
+        box7.setEnabled(false);
 
         txtCaixa.setEditable(false);
         txtCaixa.setColumns(20);
@@ -136,40 +142,39 @@ public class Relatorio extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addContainerGap(393, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSemana)
-                            .addComponent(jCheckBox3))
-                        .addGap(377, 711, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtData1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtData2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btnMes)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox1)
-                                    .addComponent(jCheckBox2))
+                                    .addComponent(box1)
+                                    .addComponent(box3))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox4)
-                                    .addComponent(jCheckBox6)
+                                    .addComponent(box2)
+                                    .addComponent(box6)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jCheckBox5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(box4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 368, Short.MAX_VALUE)
                                         .addComponent(btnGerarRelatorio)))))
-                        .addGap(137, 137, 137))))
+                        .addGap(137, 137, 137))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(btnSemana)
+                            .addComponent(box5))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtData1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtData2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(75, 75, 75)
-                .addComponent(jCheckBox7)
+                .addComponent(box7)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -197,19 +202,19 @@ public class Relatorio extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox4))
+                    .addComponent(box1)
+                    .addComponent(box2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox5)
+                    .addComponent(box3)
+                    .addComponent(box4)
                     .addComponent(btnGerarRelatorio))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox6))
+                    .addComponent(box5)
+                    .addComponent(box6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox7)
+                .addComponent(box7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -229,14 +234,36 @@ public class Relatorio extends javax.swing.JInternalFrame {
             String sqlPegardescProd = "SELECT * FROM `produto` order by idproduto";
             //String sqlPegaridCompra = "SELECT `idcompra` FROM `compra` WHERE `data` =";
             String sqlPegaridCompra = "SELECT `idcompra` FROM `compra` WHERE `data` between \"" + txtData1.getText() + "\"AND\"" + txtData2.getText() + "\"";
-            //Este codigo comentado faz um select por data, o professor qr por dia da semana        
+            //Este codigo comentado faz um select por data, o professor qr por dia da semana 
+            String sqlPegaridCompraSemana = "SELECT `idcompra` FROM `compra` WHERE `data` = " + this.semana;
 
+            if (box1.isSelected()) {
+                semana = "seg";
+            } else if (box2.isSelected()) {
+                semana = "ter";
+            } else if (box3.isSelected()) {
+                semana = "qua";
+            } else if (box4.isSelected()) {
+                semana = "qui";
+            } else if (box5.isSelected()) {
+                semana = "sex";
+            } else if (box6.isSelected()) {
+                semana = "s?b";
+            } else if (box7.isSelected()) {
+                semana = "dom";
+            }
+            
+            System.out.println(this.semana);
+            
+            
             PreparedStatement psmtPegarDescProd = connection.prepareStatement(sqlPegardescProd);
             PreparedStatement psmtPegaridCompra = connection.prepareStatement(sqlPegaridCompra);
+            PreparedStatement psmtPegaridCompraSemana = connection.prepareStatement(sqlPegaridCompraSemana);
 
-            ResultSet rs, rs2, rs3;
+            ResultSet rs, rs2, rs3, rs4;
             rs = psmtPegarDescProd.executeQuery();
             rs2 = psmtPegaridCompra.executeQuery();
+            rs4 = psmtPegaridCompraSemana.executeQuery();
 
             arquivoWeka += "@relation \"Teste\"\n\n";
             while (rs.next()) {
@@ -281,12 +308,12 @@ public class Relatorio extends javax.swing.JInternalFrame {
             rs.close();
 
             try (FileWriter fw = new FileWriter(arquivo)) {
-             fw.write(arquivoWeka);
-             fw.flush();
-             } catch (IOException ex) {
-             ex.printStackTrace();
-             }
-            
+                fw.write(arquivoWeka);
+                fw.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
             //System.out.println(arquivo.getAbsolutePath());
             //StringBuffer str = new StringBuffer();
             //str.append(arquivoWeka);
@@ -299,7 +326,6 @@ public class Relatorio extends javax.swing.JInternalFrame {
              } catch (IOException e) {
              e.printStackTrace();
              }*/
-
             Weka w = new Weka();
             txtCaixa.setText(w.retornoWeka);
         } catch (Exception ex) {
@@ -315,13 +341,13 @@ public class Relatorio extends javax.swing.JInternalFrame {
     private void btnSemanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSemanaActionPerformed
         if (btnSemana.isSelected()) {
             btnMes.setSelected(false);
-            jCheckBox1.setEnabled(true);
-            jCheckBox2.setEnabled(true);
-            jCheckBox3.setEnabled(true);
-            jCheckBox4.setEnabled(true);
-            jCheckBox5.setEnabled(true);
-            jCheckBox6.setEnabled(true);
-            jCheckBox7.setEnabled(true);
+            box1.setEnabled(true);
+            box3.setEnabled(true);
+            box5.setEnabled(true);
+            box2.setEnabled(true);
+            box4.setEnabled(true);
+            box6.setEnabled(true);
+            box7.setEnabled(true);
             jLabel2.setEnabled(false);
             txtData1.setEnabled(false);
             jLabel3.setEnabled(false);
@@ -336,18 +362,29 @@ public class Relatorio extends javax.swing.JInternalFrame {
             txtData1.setEnabled(true);
             jLabel3.setEnabled(true);
             txtData2.setEnabled(true);
-            jCheckBox1.setEnabled(false);
-            jCheckBox2.setEnabled(false);
-            jCheckBox3.setEnabled(false);
-            jCheckBox4.setEnabled(false);
-            jCheckBox5.setEnabled(false);
-            jCheckBox6.setEnabled(false);
-            jCheckBox7.setEnabled(false);
+            box1.setEnabled(false);
+            box3.setEnabled(false);
+            box5.setEnabled(false);
+            box2.setEnabled(false);
+            box4.setEnabled(false);
+            box6.setEnabled(false);
+            box7.setEnabled(false);
         }
     }//GEN-LAST:event_btnMesActionPerformed
 
+    private void box1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box1ActionPerformed
+
+    }//GEN-LAST:event_box1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox box1;
+    private javax.swing.JCheckBox box2;
+    private javax.swing.JCheckBox box3;
+    private javax.swing.JCheckBox box4;
+    private javax.swing.JCheckBox box5;
+    private javax.swing.JCheckBox box6;
+    private javax.swing.JCheckBox box7;
     private javax.swing.JButton btnGerarRelatorio;
     public javax.swing.JCheckBox btnMes;
     public javax.swing.JCheckBox btnSemana;
@@ -355,13 +392,6 @@ public class Relatorio extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
