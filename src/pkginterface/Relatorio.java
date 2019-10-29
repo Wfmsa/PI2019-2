@@ -51,6 +51,7 @@ public class Relatorio extends javax.swing.JInternalFrame {
         box7 = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtCaixa = new javax.swing.JTextArea();
+        btnLimpar = new javax.swing.JButton();
 
         jButton1.setText("Fechar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -69,7 +70,6 @@ public class Relatorio extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Selecione o Período de Vendas Desejado");
 
-        txtData1.setText("2012/12/12");
         txtData1.setEnabled(false);
         txtData1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,14 +81,12 @@ public class Relatorio extends javax.swing.JInternalFrame {
         jLabel2.setText("De:");
         jLabel2.setEnabled(false);
 
-        txtData2.setText("2012/12/15");
         txtData2.setEnabled(false);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Até:");
         jLabel3.setEnabled(false);
 
-        btnMes.setSelected(true);
         btnMes.setText("Por dia do mês");
         btnMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,6 +132,13 @@ public class Relatorio extends javax.swing.JInternalFrame {
         txtCaixa.setRows(5);
         jScrollPane2.setViewportView(txtCaixa);
 
+        btnLimpar.setText("Limpar");
+        btnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -150,27 +155,31 @@ public class Relatorio extends javax.swing.JInternalFrame {
                                     .addComponent(box3))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(box2)
-                                    .addComponent(box6)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(box4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 368, Short.MAX_VALUE)
-                                        .addComponent(btnGerarRelatorio)))))
-                        .addGap(137, 137, 137))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 414, Short.MAX_VALUE)
+                                        .addComponent(btnGerarRelatorio))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(box2)
+                                            .addComponent(box6))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnLimpar)
+                        .addGap(15, 15, 15))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(btnSemana)
-                            .addComponent(box5))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtData1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtData2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(box5)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtData1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtData2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(75, 75, 75)
@@ -196,10 +205,10 @@ public class Relatorio extends javax.swing.JInternalFrame {
                 .addComponent(btnSemana)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtData1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(txtData2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(txtData1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(box1)
@@ -208,7 +217,8 @@ public class Relatorio extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(box3)
                     .addComponent(box4)
-                    .addComponent(btnGerarRelatorio))
+                    .addComponent(btnGerarRelatorio)
+                    .addComponent(btnLimpar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(box5)
@@ -225,7 +235,19 @@ public class Relatorio extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.dispose();
+        txtData1.setText("");
+        txtData2.setText("");          
+        btnMes.setSelected(false);
+        btnSemana.setSelected(false);
+        txtCaixa.setText("");
+        box1.setSelected(false);
+        box2.setSelected(false);
+        box3.setSelected(false);
+        box4.setSelected(false);
+        box5.setSelected(false);
+        box6.setSelected(false);
+        box7.setSelected(false);
+        this.dispose();   
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelatorioActionPerformed
@@ -253,7 +275,7 @@ public class Relatorio extends javax.swing.JInternalFrame {
                 semana = "dom";
             }
             
-            System.out.println(this.semana);
+            
             
             
             PreparedStatement psmtPegarDescProd = connection.prepareStatement(sqlPegardescProd);
@@ -376,6 +398,21 @@ public class Relatorio extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_box1ActionPerformed
 
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        txtData1.setText("");
+        txtData2.setText("");          
+        btnMes.setSelected(false);
+        btnSemana.setSelected(false);
+        txtCaixa.setText("");
+        box1.setSelected(false);
+        box2.setSelected(false);
+        box3.setSelected(false);
+        box4.setSelected(false);
+        box5.setSelected(false);
+        box6.setSelected(false);
+        box7.setSelected(false);    
+    }//GEN-LAST:event_btnLimparActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox box1;
@@ -386,6 +423,7 @@ public class Relatorio extends javax.swing.JInternalFrame {
     private javax.swing.JCheckBox box6;
     private javax.swing.JCheckBox box7;
     private javax.swing.JButton btnGerarRelatorio;
+    private javax.swing.JButton btnLimpar;
     public javax.swing.JCheckBox btnMes;
     public javax.swing.JCheckBox btnSemana;
     private javax.swing.ButtonGroup buttonGroup1;
