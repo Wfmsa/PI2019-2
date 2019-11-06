@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
 public class Relatorio extends javax.swing.JInternalFrame {
 
@@ -26,113 +25,6 @@ public class Relatorio extends javax.swing.JInternalFrame {
     private ArrayList<Integer> listaCodProdutos = new ArrayList<Integer>();
     String listaProdS;
     String semana;
-
-    public void LimparArquivoWeka() {
-        arquivoWeka = "";
-    }
-
-    public void GerarRelatorio() {
-        try (Connection connection = Conexao.getInstance().getConnection()) {
-
-            String sqlPegardescProd = "SELECT * FROM `produto` order by idproduto";
-            //String sqlPegaridCompra = "SELECT `idcompra` FROM `compra` WHERE `data` =";
-            String sqlPegaridCompra = "SELECT `idcompra` FROM `compra` WHERE `data` between \"" + txtData1.getText() + "\"AND\"" + txtData2.getText() + "\"";
-            //Este codigo comentado faz um select por data, o professor qr por dia da semana 
-            String sqlPegaridCompraSemana = "SELECT `idcompra` FROM `compra` WHERE `data` = " + this.semana;
-
-            if (box1.isSelected()) {
-                semana = "seg";
-            } else if (box2.isSelected()) {
-                semana = "ter";
-            } else if (box3.isSelected()) {
-                semana = "qua";
-            } else if (box4.isSelected()) {
-                semana = "qui";
-            } else if (box5.isSelected()) {
-                semana = "sex";
-            } else if (box6.isSelected()) {
-                semana = "s?b";
-            } else if (box7.isSelected()) {
-                semana = "dom";
-            }
-
-            PreparedStatement psmtPegarDescProd = connection.prepareStatement(sqlPegardescProd);
-            PreparedStatement psmtPegaridCompra = connection.prepareStatement(sqlPegaridCompra);
-            PreparedStatement psmtPegaridCompraSemana = connection.prepareStatement(sqlPegaridCompraSemana);
-
-            ResultSet rs, rs2, rs3, rs4;
-            rs = psmtPegarDescProd.executeQuery();
-            rs2 = psmtPegaridCompra.executeQuery();
-            rs4 = psmtPegaridCompraSemana.executeQuery();
-
-            arquivoWeka += "@relation \"Teste\"\n\n";
-            while (rs.next()) {
-                this.descProd = rs.getString("descproduto");
-                arquivoWeka += "@attribute " + this.descProd + "{y,n}\n";
-                listaCodProdutos.add(rs.getInt("idproduto"));
-            }
-
-            arquivoWeka += "\n@data\n";
-
-            while (rs2.next()) {
-                String sqlPegarItens = "SELECT idproduto FROM itens where idcompra = " + rs2.getString("idcompra")
-                        + " order by idproduto";
-                PreparedStatement psmtPegaridProd = connection.prepareStatement(sqlPegarItens);
-                rs3 = psmtPegaridProd.executeQuery();
-                rs3.next();
-                String saida = "";
-                for (int i = 0; i < listaCodProdutos.size(); i++) {
-
-                    int codigo = listaCodProdutos.get(i);
-                    if (codigo == rs3.getInt("idproduto")) {
-                        saida += "y,";
-                    } else {
-                        saida += "?,";
-                    }
-
-                    if (codigo >= rs3.getInt("idproduto")) {
-                        if (!rs3.next()) {
-                            for (int j = 1; j < (listaCodProdutos.size() - i); j++) {
-                                saida += "?,";
-                            }
-                            break;
-                        }
-                    }
-                }
-                saida = (String) saida.subSequence(0, saida.length() - 1);
-                saida += "\n";
-                arquivoWeka += saida;
-                rs3.close();
-            }
-            rs2.close();
-            rs.close();
-
-            try (FileWriter fw = new FileWriter(arquivo)) {
-                fw.write(arquivoWeka);
-                fw.flush();
-
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-
-            //System.out.println(arquivo.getAbsolutePath());
-            //StringBuffer str = new StringBuffer();
-            //str.append(arquivoWeka);
-            /*try {
-
-             FileWriter out = new FileWriter("Teste.arff");
-             out.write(str.toString());
-             out.close();
-                
-             } catch (IOException e) {
-             e.printStackTrace();
-             }*/
-            Weka w = new Weka();
-            txtCaixa.setText(w.retornoWeka);
-        } catch (Exception ex) {
-            Logger.getLogger(Relatorio.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -344,7 +236,7 @@ public class Relatorio extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         txtData1.setText("");
-        txtData2.setText("");
+        txtData2.setText("");          
         btnMes.setSelected(false);
         btnSemana.setSelected(false);
         txtCaixa.setText("");
@@ -355,13 +247,112 @@ public class Relatorio extends javax.swing.JInternalFrame {
         box5.setSelected(false);
         box6.setSelected(false);
         box7.setSelected(false);
-        this.dispose();
+        this.dispose();   
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarRelatorioActionPerformed
-       
-        LimparArquivoWeka();
-        GerarRelatorio();
+
+        try (Connection connection = Conexao.getInstance().getConnection()) {
+            String sqlPegardescProd = "SELECT * FROM `produto` order by idproduto";
+            //String sqlPegaridCompra = "SELECT `idcompra` FROM `compra` WHERE `data` =";
+            String sqlPegaridCompra = "SELECT `idcompra` FROM `compra` WHERE `data` between \"" + txtData1.getText() + "\"AND\"" + txtData2.getText() + "\"";
+            //Este codigo comentado faz um select por data, o professor qr por dia da semana 
+            String sqlPegaridCompraSemana = "SELECT `idcompra` FROM `compra` WHERE `data` = " + this.semana;
+
+            if (box1.isSelected()) {
+                semana = "seg";
+            } else if (box2.isSelected()) {
+                semana = "ter";
+            } else if (box3.isSelected()) {
+                semana = "qua";
+            } else if (box4.isSelected()) {
+                semana = "qui";
+            } else if (box5.isSelected()) {
+                semana = "sex";
+            } else if (box6.isSelected()) {
+                semana = "s?b";
+            } else if (box7.isSelected()) {
+                semana = "dom";
+            }
+            
+            
+            
+            
+            PreparedStatement psmtPegarDescProd = connection.prepareStatement(sqlPegardescProd);
+            PreparedStatement psmtPegaridCompra = connection.prepareStatement(sqlPegaridCompra);
+            PreparedStatement psmtPegaridCompraSemana = connection.prepareStatement(sqlPegaridCompraSemana);
+
+            ResultSet rs, rs2, rs3, rs4;
+            rs = psmtPegarDescProd.executeQuery();
+            rs2 = psmtPegaridCompra.executeQuery();
+            rs4 = psmtPegaridCompraSemana.executeQuery();
+
+            arquivoWeka += "@relation \"Teste\"\n\n";
+            while (rs.next()) {
+                this.descProd = rs.getString("descproduto");
+                arquivoWeka += "@attribute " + this.descProd + "{y,n}\n";
+                listaCodProdutos.add(rs.getInt("idproduto"));
+            }
+
+            arquivoWeka += "\n@data\n";
+
+            while (rs2.next()) {
+                String sqlPegarItens = "SELECT idproduto FROM itens where idcompra = " + rs2.getString("idcompra")
+                        + " order by idproduto";
+                PreparedStatement psmtPegaridProd = connection.prepareStatement(sqlPegarItens);
+                rs3 = psmtPegaridProd.executeQuery();
+                rs3.next();
+                String saida = "";
+                for (int i = 0; i < listaCodProdutos.size(); i++) {
+
+                    int codigo = listaCodProdutos.get(i);
+                    if (codigo == rs3.getInt("idproduto")) {
+                        saida += "y,";
+                    } else {
+                        saida += "?,";
+                    }
+
+                    if (codigo >= rs3.getInt("idproduto")) {
+                        if (!rs3.next()) {
+                            for (int j = 1; j < (listaCodProdutos.size() - i); j++) {
+                                saida += "?,";
+                            }
+                            break;
+                        }
+                    }
+                }
+                saida = (String) saida.subSequence(0, saida.length() - 1);
+                saida += "\n";
+                arquivoWeka += saida;
+                rs3.close();
+            }
+            rs2.close();
+            rs.close();
+
+            try (FileWriter fw = new FileWriter(arquivo)) {
+                fw.write(arquivoWeka);
+                fw.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            //System.out.println(arquivo.getAbsolutePath());
+            //StringBuffer str = new StringBuffer();
+            //str.append(arquivoWeka);
+            /*try {
+
+             FileWriter out = new FileWriter("Teste.arff");
+             out.write(str.toString());
+             out.close();
+                
+             } catch (IOException e) {
+             e.printStackTrace();
+             }*/
+            Weka w = new Weka();
+            txtCaixa.setText(w.retornoWeka);
+        } catch (Exception ex) {
+            Logger.getLogger(Relatorio.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_btnGerarRelatorioActionPerformed
 
@@ -409,7 +400,7 @@ public class Relatorio extends javax.swing.JInternalFrame {
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         txtData1.setText("");
-        txtData2.setText("");
+        txtData2.setText("");          
         btnMes.setSelected(false);
         btnSemana.setSelected(false);
         txtCaixa.setText("");
@@ -419,7 +410,7 @@ public class Relatorio extends javax.swing.JInternalFrame {
         box4.setSelected(false);
         box5.setSelected(false);
         box6.setSelected(false);
-        box7.setSelected(false);
+        box7.setSelected(false);    
     }//GEN-LAST:event_btnLimparActionPerformed
 
 
